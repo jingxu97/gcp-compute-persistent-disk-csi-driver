@@ -1,0 +1,7 @@
+commonLabels:
+  k8s-app: gcp-compute-persistent-disk-csi-driver
+namespace:
+  gce-pd-csi-driver
+resources:
+- controller.yaml
+- setup-cluster.yaml

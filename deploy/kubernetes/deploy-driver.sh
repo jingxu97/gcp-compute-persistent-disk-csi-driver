@@ -18,6 +18,7 @@ set -x
 
 readonly NAMESPACE="${GCE_PD_DRIVER_NAMESPACE:-gce-pd-csi-driver}"
 readonly DEPLOY_VERSION="${GCE_PD_DRIVER_VERSION:-stable}"
+readonly DEPLOY_OS="${GCE_PD_DRIVER_OS:-linux}"
 readonly PKGDIR="${GOPATH}/src/sigs.k8s.io/gcp-compute-persistent-disk-csi-driver"
 source "${PKGDIR}/deploy/common.sh"
 
@@ -95,6 +96,36 @@ fi
 ${KUBECTL} version
 
 readonly tmp_spec=/tmp/gcp-compute-persistent-disk-csi-driver-specs-generated.yaml
-${KUSTOMIZE_PATH} build ${PKGDIR}/deploy/kubernetes/overlays/${DEPLOY_VERSION} | tee $tmp_spec
-${KUBECTL} apply -v="${VERBOSITY}" -f $tmp_spec
 
+if [[ ${DEPLOY_OS} = "mixed" ]]; then
+    FIRST_OS=linux
+    SECOND_OS=windows
+else
+    FIRST_OS=${DEPLOY_OS}
+fi
+
+os_dir=$(mktemp -d -p ./ -t os-XXXXXXXXXX)
+cat <<EOF >${os_dir}/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace:
+  gce-pd-csi-driver
+bases:
+- ${PKGDIR}/deploy/kubernetes/kustomization/base_setup
+- ${PKGDIR}/deploy/kubernetes/kustomization/node_setup/${FIRST_OS}
+EOF
+
+if [[ -n ${SECOND_OS} ]]; then
+echo "- ../node_setup/${SECOND_OS}" >> ${os_dir}/kustomization.yaml
+fi
+
+image_dir=$(mktemp -d -p ./ -t image-XXXXXXXXXX) 
+cp ${PKGDIR}/deploy/kubernetes/kustomization/image_setup/${DEPLOY_VERSION}/kustomization.yaml ${image_dir} 
+cat <<EOF >>${image_dir}/kustomization.yaml
+bases:
+- ../${os_dir}
+EOF
+
+${KUSTOMIZE_PATH} build ${image_dir} | tee $tmp_spec; \
+${KUBECTL} apply -v="${VERBOSITY}" -f $tmp_spec; \
+rm -rf ${os_dir} ${image_dir}
