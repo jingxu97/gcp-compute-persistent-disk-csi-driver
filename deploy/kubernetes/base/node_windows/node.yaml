@@ -19,7 +19,7 @@ spec:
       # when deploying on GKE Windows node.
       # hostNetwork: true
       priorityClassName: csi-gce-pd-node
-      serviceAccountName: csi-gce-pd-node-sa
+      serviceAccountName: csi-gce-pd-node-sa-win
       nodeSelector:
         kubernetes.io/os: windows
       containers:
