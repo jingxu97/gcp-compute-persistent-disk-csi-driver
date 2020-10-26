@@ -422,6 +422,8 @@ github.com/kubernetes-csi/csi-proxy/client v0.2.0 h1:O801ogdqIJXhwABFfe9JRtz3N6h
 github.com/kubernetes-csi/csi-proxy/client v0.2.0/go.mod h1:6ptQQmti5QHwBxSsh8Cy00oGdogj0JXewFnu8FFjgOs=
 github.com/kubernetes-csi/csi-proxy/client v0.2.1 h1:n21d2U9HvgQ6jfJayafRv8kXXtLvnRNEqoD0mQNucKc=
 github.com/kubernetes-csi/csi-proxy/client v0.2.1/go.mod h1:6ptQQmti5QHwBxSsh8Cy00oGdogj0JXewFnu8FFjgOs=
+github.com/kubernetes-csi/csi-proxy/client v0.2.2 h1:VpMddHnbYA1oBeU5nrisdyrpOAAT0HqME7fsTi6BG2w=
+github.com/kubernetes-csi/csi-proxy/client v0.2.2/go.mod h1:6ptQQmti5QHwBxSsh8Cy00oGdogj0JXewFnu8FFjgOs=
 github.com/kubernetes-csi/csi-test/v3 v3.0.0 h1:mVsfA4J67uNm8fdF/Pr84oMqL92qjIhjWbEUH8zv1fU=
 github.com/kubernetes-csi/csi-test/v3 v3.0.0/go.mod h1:VdIKGnDZHOjg4M5yd0OZICtsoEzdn64d0K33N6dm35Q=
 github.com/kylelemons/godebug v0.0.0-20170820004349-d65d576e9348/go.mod h1:B69LEHPfb2qLo0BaaOLcbitczOKLWTsrBG9LczfCD4k=
